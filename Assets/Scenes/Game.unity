@@ -726,7 +726,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1075132131
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -985,7 +985,7 @@ GameObject:
   - component: {fileID: 1229541047}
   - component: {fileID: 1229541048}
   m_Layer: 0
-  m_Name: WorldGenerator
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1023,7 +1023,7 @@ MonoBehaviour:
   perlinScale: 0.06
   offset: 10000
   dimension: {x: 32, y: 70}
-  waveHeight: 5.5
+  waveHeight: 2
 --- !u!1 &1232343274
 GameObject:
   m_ObjectHideFlags: 0
@@ -1405,6 +1405,7 @@ GameObject:
   - component: {fileID: 1837973575}
   - component: {fileID: 1837973574}
   - component: {fileID: 1837973576}
+  - component: {fileID: 1837973577}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -1515,6 +1516,19 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &1837973577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1837973573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5039295ddc415645becfedc5d0c38a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 30
 --- !u!1 &1878232053
 GameObject:
   m_ObjectHideFlags: 0

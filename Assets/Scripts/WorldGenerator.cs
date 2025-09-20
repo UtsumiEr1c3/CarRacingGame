@@ -25,6 +25,10 @@ public class WorldGenerator : MonoBehaviour
         GameObject newCylinder = new GameObject();
         newCylinder.name = "WorldPieces";
 
+        // 增加移动
+        BasicMovement movement = newCylinder.AddComponent<BasicMovement>();
+        movement.moveSpeed = -30;
+
         // 添加组件
         MeshFilter meshFilter = newCylinder.AddComponent<MeshFilter>();
         MeshRenderer meshRenderer = newCylinder.AddComponent<MeshRenderer>();
