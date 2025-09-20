@@ -59,6 +59,8 @@ public class WorldGenerator : MonoBehaviour
         mesh.uv = uvs;
         mesh.triangles = triangles;
 
+        mesh.RecalculateNormals();
+
         return mesh;
     }
 
@@ -99,11 +101,11 @@ public class WorldGenerator : MonoBehaviour
 
                 // 用柏林噪声
                 float pX = (vertices[index].x * perlinScale) * offset;
-                float pY = (vertices[index].x * perlinScale) * offset;
+                float pZ = (vertices[index].z * perlinScale) * offset;
 
                 // 需要一个中心点和当前的顶点做减法, 然后归一化, 再去计算柏林噪声
                 Vector3 center = new Vector3(0, 0, vertices[index].z);
-                vertices[index] += (center - vertices[index]).normalized * Mathf.PerlinNoise(pX, pY) * waveHeight;
+                vertices[index] += (center - vertices[index]).normalized * Mathf.PerlinNoise(pX, pZ) * waveHeight;
 
                 index++;
             }
