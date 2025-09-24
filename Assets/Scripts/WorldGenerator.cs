@@ -215,4 +215,9 @@ public class WorldGenerator : MonoBehaviour
             }
         }
     }
+
+    public Transform GetWorldPiece()
+    {
+        return pieces[0].transform;
+    }
 }

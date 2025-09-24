@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class Car : MonoBehaviour
@@ -10,7 +11,21 @@ public class Car : MonoBehaviour
     public int rotateAngle;
     public int wheelRotateSpeed;
 
+    public Transform[] grassEffects;
+    public Transform[] skidMarkPivots;
+    public GameObject skidMark;
+    public float skidMarkSize;
+    public float skidMarkDelay;
+
     private int targetRotation;
+
+    private WorldGenerator worldGenerator;
+
+    private void Start()
+    {
+        worldGenerator = GameObject.FindObjectOfType<WorldGenerator>();
+        StartCoroutine(SkidMark());
+    }
 
     private void LateUpdate()
     {
@@ -61,6 +76,21 @@ public class Car : MonoBehaviour
         {
             // if get input with ad or <- ->
             targetRotation = (int)(rotateAngle * Input.GetAxis("Horizontal"));
+        }
+    }
+
+    private IEnumerator SkidMark()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(skidMarkDelay);
+
+            for (int i = 0; i < skidMarkPivots.Length; i++)
+            {
+                GameObject newSkidMark = Instantiate(skidMark, skidMarkPivots[i].position, skidMarkPivots[i].rotation);
+                newSkidMark.transform.parent = worldGenerator.GetWorldPiece();
+                newSkidMark.transform.localScale = new Vector3(1, 1, 4) * skidMarkSize;
+            }
         }
     }
 }
