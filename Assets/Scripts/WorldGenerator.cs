@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.LowLevelPhysics;
 
@@ -10,24 +12,82 @@ public class WorldGenerator : MonoBehaviour
     public float offset;
     public Vector2 dimension;
     public float waveHeight;
+    public float globalSpeed;
+
+    private GameObject[] pieces = new GameObject[2];
 
     private void Start()
     {
-        CreateCylinder();
+        for (int i = 0; i < 2; i++)
+        {
+            GenerateWorldPiece(i);
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (pieces[1] && pieces[1].transform.position.z <= 0)
+        {
+            StartCoroutine(UpdateWorldPieces());
+        }
+    }
+
+    IEnumerator UpdateWorldPieces()
+    {
+        // 第一个已经过去了, 销毁掉, 没用了
+        Destroy(pieces[0]);
+
+        // 把当前的往前穿一位
+        pieces[0] = pieces[1];
+
+        // 第二个块再生成一个新的
+        pieces[1] = CreateCylinder();
+
+        // 重新设置位置
+        pieces[1].transform.position = pieces[0].transform.position + Vector3.forward * (dimension.y * scale * Mathf.PI);
+        pieces[1].transform.rotation = pieces[0].transform.rotation;
+
+        UpdateSinglePiece(pieces[1]);
+
+        yield return 0;
+    }
+
+    private void GenerateWorldPiece(int i)
+    {
+        // 生成圆柱体, 保存进数组
+        pieces[i] = CreateCylinder();
+
+        // 根据索引去摆正圆柱体的位置
+        pieces[i].transform.Translate(Vector3.forward * (dimension.y * scale * Mathf.PI) * i);
+
+        UpdateSinglePiece(pieces[i]);
+    }
+
+    /// <summary>
+    /// 标记尾部位置并移动
+    /// </summary>
+    /// <param name="piece"></param>
+    private void UpdateSinglePiece(GameObject piece)
+    {
+        // 增加移动
+        BasicMovement movement = piece.AddComponent<BasicMovement>();
+        movement.moveSpeed = -globalSpeed;
+
+        // 创建结束点, 并设置位置
+        GameObject endPoint = new GameObject();
+        endPoint.transform.position = piece.transform.position + Vector3.forward * (dimension.y * scale * Mathf.PI);
+        endPoint.transform.parent = piece.transform;
+        endPoint.name = "End Point";
     }
 
     /// <summary>
     /// Mesh 通过网格绘制的, MeshFilter 持有 Mesh 的引用, MeshRenderer 
     /// </summary>
-    void CreateCylinder()
+    public GameObject CreateCylinder()
     {
         // 创建 GameObject
         GameObject newCylinder = new GameObject();
         newCylinder.name = "WorldPieces";
-
-        // 增加移动
-        BasicMovement movement = newCylinder.AddComponent<BasicMovement>();
-        movement.moveSpeed = -30;
 
         // 添加组件
         MeshFilter meshFilter = newCylinder.AddComponent<MeshFilter>();
@@ -39,6 +99,8 @@ public class WorldGenerator : MonoBehaviour
 
         // 添加碰撞体
         newCylinder.AddComponent<MeshCollider>();
+
+        return newCylinder;
     }
 
     /// <summary>
