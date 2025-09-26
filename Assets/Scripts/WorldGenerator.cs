@@ -13,6 +13,8 @@ public class WorldGenerator : MonoBehaviour
     public Vector2 dimension;
     public float waveHeight;
     public float globalSpeed;
+    public float startTransitionLength;
+    public Vector3[] beginPoints;
 
     private GameObject[] pieces = new GameObject[2];
 
@@ -26,7 +28,7 @@ public class WorldGenerator : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (pieces[1] && pieces[1].transform.position.z <= 0)
+        if (pieces[1] && pieces[1].transform.position.z <= 15f)
         {
             StartCoroutine(UpdateWorldPieces());
         }
@@ -78,6 +80,8 @@ public class WorldGenerator : MonoBehaviour
         endPoint.transform.position = piece.transform.position + Vector3.forward * (dimension.y * scale * Mathf.PI);
         endPoint.transform.parent = piece.transform;
         endPoint.name = "End Point";
+
+        //offset += randomness;
     }
 
     /// <summary>
@@ -172,6 +176,17 @@ public class WorldGenerator : MonoBehaviour
                 // 需要一个中心点和当前的顶点做减法, 然后归一化, 再去计算柏林噪声
                 Vector3 center = new Vector3(0, 0, vertices[index].z);
                 vertices[index] += (center - vertices[index]).normalized * Mathf.PerlinNoise(pX, pZ) * waveHeight;
+
+                if (z < startTransitionLength && beginPoints[0] != Vector3.zero)
+                {
+                    float perlinPersentage = z * (1f / startTransitionLength);
+                    Vector3 beginPoint = new Vector3(beginPoints[x].x, beginPoints[x].y, vertices[index].z);
+                    vertices[index] = (perlinPersentage * vertices[index]) + ((1 - perlinPersentage) * beginPoint);
+                }
+                else if (z == zCount)
+                {
+                    beginPoints[x] = vertices[index];
+                }
 
                 index++;
             }
