@@ -10418,7 +10418,7 @@ Transform:
   m_GameObject: {fileID: 746330993}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -11.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10812,6 +10812,9 @@ MonoBehaviour:
   dimension: {x: 32, y: 70}
   waveHeight: 1.3
   globalSpeed: 30
+  randomness: 0
+  startTransitionLength: 0
+  beginPoints: []
 --- !u!1 &1232343274
 GameObject:
   m_ObjectHideFlags: 0
@@ -11848,7 +11851,7 @@ Transform:
   m_GameObject: {fileID: 2015083901}
   serializedVersion: 2
   m_LocalRotation: {x: 0.10730035, y: -0, z: -0, w: 0.9942267}
-  m_LocalPosition: {x: 0, y: 0.735, z: 0.414}
+  m_LocalPosition: {x: 0, y: 0.658, z: 0.612}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

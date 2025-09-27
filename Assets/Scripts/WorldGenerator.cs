@@ -13,6 +13,7 @@ public class WorldGenerator : MonoBehaviour
     public Vector2 dimension;
     public float waveHeight;
     public float globalSpeed;
+    public float randomness;
     public float startTransitionLength;
     public Vector3[] beginPoints;
 
@@ -20,6 +21,7 @@ public class WorldGenerator : MonoBehaviour
 
     private void Start()
     {
+        beginPoints = new Vector3[(int)dimension.x + 1];
         for (int i = 0; i < 2; i++)
         {
             GenerateWorldPiece(i);
@@ -28,7 +30,7 @@ public class WorldGenerator : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (pieces[1] && pieces[1].transform.position.z <= 15f)
+        if (pieces[1] && pieces[1].transform.position.z <= -15f)
         {
             StartCoroutine(UpdateWorldPieces());
         }
@@ -81,7 +83,7 @@ public class WorldGenerator : MonoBehaviour
         endPoint.transform.parent = piece.transform;
         endPoint.name = "End Point";
 
-        //offset += randomness;
+        offset += randomness;
     }
 
     /// <summary>
